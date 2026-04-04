@@ -4,15 +4,16 @@
 
 ---
 
-![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express-5.x-000000?logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)
-![EJS](https://img.shields.io/badge/View-EJS-B4CA65)
-![Deployment](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?logo=render&logoColor=000)
+[![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?logo=node.js&logoColor=white)](https://nodejs.org/docs/latest-v22.x/api/)
+[![Express](https://img.shields.io/badge/Express-5.x-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)](https://mongoosejs.com/docs/)
+[![EJS](https://img.shields.io/badge/View-EJS-B4CA65)](https://ejs.co/)
+[![Deployment](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?logo=render&logoColor=000)](https://render.com/docs)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-sstayhub.onrender.com-0A66C2?logo=render&logoColor=white)](https://sstayhub.onrender.com/)
 
 ## Live Demo
 
-**Production URL:** https://sstayhub.onrender.com/
+**Production URL:** [https://sstayhub.onrender.com/](https://sstayhub.onrender.com/)
 
 ---
 
