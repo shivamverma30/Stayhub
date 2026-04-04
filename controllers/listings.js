@@ -4,11 +4,57 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding') ;
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({accessToken: mapToken});
 
+const CATEGORY_KEYWORDS = {
+  trending: ["trending", "popular", "city", "downtown", "modern", "luxury"],
+  room: ["room", "apartment", "studio", "suite", "loft"],
+  iconic: ["iconic", "heritage", "historic", "landmark", "district"],
+  nature: ["nature", "forest", "mountain", "valley", "retreat"],
+  beach: ["beach", "ocean", "sea", "coast", "island"],
+  winter: ["winter", "snow", "ski", "alps", "chalet"],
+  camping: ["camp", "camping", "cabin", "treehouse", "outdoor"],
+  landmarks: ["landmark", "palace", "fort", "museum", "opera"],
+  waterfront: ["waterfront", "lake", "river", "canal", "backwater"],
+  hotels: ["hotel", "resort", "villa", "bungalow", "hostel"],
+};
+
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 
 module.exports.index = async(req,res)=>{
-     const allListings = await Listing.find({});
-     res.render("./listings/index",{allListings});
+     const searchQuery = (req.query.search || "").trim();
+     const selectedCategory = (req.query.category || "").trim().toLowerCase();
+     const filters = [];
+
+     // Search by title, location, and country using safe case-insensitive regex.
+     if(searchQuery){
+      const safeSearch = escapeRegex(searchQuery);
+      filters.push({
+        $or: [
+          { title: { $regex: safeSearch, $options: "i" } },
+          { description: { $regex: safeSearch, $options: "i" } },
+          { location: { $regex: safeSearch, $options: "i" } },
+          { country: { $regex: safeSearch, $options: "i" } },
+        ],
+      });
+     }
+
+     if (selectedCategory && CATEGORY_KEYWORDS[selectedCategory]) {
+      const categoryRegex = CATEGORY_KEYWORDS[selectedCategory].join("|");
+      filters.push({
+        $or: [
+          { title: { $regex: categoryRegex, $options: "i" } },
+          { description: { $regex: categoryRegex, $options: "i" } },
+          { location: { $regex: categoryRegex, $options: "i" } },
+          { country: { $regex: categoryRegex, $options: "i" } },
+        ],
+      });
+     }
+
+     const findQuery = filters.length ? { $and: filters } : {};
+
+     const allListings = await Listing.find(findQuery);
+     res.render("./listings/index",{allListings, searchQuery, selectedCategory});
 };
 
 module.exports.renderNewForm = (req,res)=>{

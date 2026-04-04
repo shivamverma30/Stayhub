@@ -1,55 +1,55 @@
 <% layout("/layouts/biolerplate") %>
-<div class="row mt-3"> 
-  <div class="col-8 offset-2">
-    <h3>Create a New Listing</h3>
-
-    <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
-      <div class="mb-3">
-      <lable for="title" class="form-label">Title</lable>
-      <input name="listing[title]" placeholder="Add a catchy title" type="text" class="form-control" required />
-      <div class="valid-feedback">Title looks good</div>
-      </div>
-
-      <div class="mb-3">
-        <lable for="description" class="form-label">Description</lable>
-        <textarea
-        name="listing[description]"
-        class="form-control" required
-      ></textarea>
-      <div class="invalid-feedback">please enter the sort description</div>
+<section class="form-screen-wrap">
+  <div class="form-card listing-form-card">
+    <div class="form-head">
+      <h1>Create a New Listing</h1>
+      <p>Share your space with travelers and start hosting.</p>
     </div>
 
-    <div class="mb-3">
-        <lable for="image"  class="form-label"> Upload Image</lable>
-        <input
-        name="listing[image]"
-        type="file"
-        class="form-control"
-      />required
-      </div>      
-
-      <div class="row">
-        <div class="mb-3 col-md-4">
-        <lable for="price" class="form-label">Price</lable>
-      <input name="listing[price]" placeholder="1200" class="form-control"  required/>
-      <div class="invalid-feedback">Please enter the valid price</div>
+    <form method="POST" action="/listings" novalidate class="needs-validation premium-form" enctype="multipart/form-data">
+      <div class="form-floating mb-3">
+        <input name="listing[title]" placeholder="Add a catchy title" type="text" class="form-control" id="title" required />
+        <label for="title">Title</label>
+        <div class="valid-feedback">Title looks good</div>
       </div>
 
-      <div class="mb-3 col-md-8">
-        <lable for="country" class="form-label">Country</lable>
-        <input name="listing[country]" placeholder="India" type="text" class="form-control" required/>
-        <div class="invalid-feedback">country name should be valid</div>
+      <div class="form-floating mb-3">
+        <textarea name="listing[description]" class="form-control floating-textarea" placeholder="Describe your place" id="description" required></textarea>
+        <label for="description">Description</label>
+        <div class="invalid-feedback">Please enter a short description</div>
       </div>
-    </div>
 
-    <div class="mb-3">
-        <lable for="location" class="form-label">Location</lable>
-        <input class="form-control"
-        name="listing[location]"placeholder="BBK ,Lucknow"type="text" required/>
-        <div class="invalid-feedback">location name should be valid</div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload Image</label>
+        <input name="listing[image]" type="file" class="form-control" id="image" required />
       </div>
-      <button class="btn btn-dark add-btn mt-3">Add</button>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="form-floating">
+            <input name="listing[price]" placeholder="1200" class="form-control" id="price" required/>
+            <label for="price">Price</label>
+            <div class="invalid-feedback">Please enter a valid price</div>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <div class="form-floating">
+            <input name="listing[country]" placeholder="India" type="text" class="form-control" id="country" required/>
+            <label for="country">Country</label>
+            <div class="invalid-feedback">Country name should be valid</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-floating mb-3 mt-3">
+        <input class="form-control" name="listing[location]" placeholder="BBK, Lucknow" type="text" id="location" required/>
+        <label for="location">Location</label>
+        <div class="invalid-feedback">Location name should be valid</div>
+      </div>
+
+      <button class="btn btn-dark add-btn mt-2">Publish Listing</button>
     </form>
   </div>
-</div>
+</section>
 

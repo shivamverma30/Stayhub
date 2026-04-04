@@ -1,121 +1,72 @@
 <% layout("/layouts/biolerplate") %>
 
-<style>
-#filters{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.filter{
-  text-align: center;
-  margin-right: 2rem;
-  margin-top: 2rem;
-  opacity: 0.7;
-}
-.filter:hover{
-  opacity: 1;
-  cursor: pointer;
-}
-.filter p {
-  font-size: 0.8rem;
-}
+<%
+  const encodedSearch = searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : "";
+%>
 
-.tax-info{
-  display: none;
-}
-.tax-toggle {
-  border: 1px solid black;
-  border-radius: 1rem;
-  height: 3.15rem;
-  padding:1rem;
-  margin-left: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-
-
-</style>
-    <div id="filters">
-
-<div class="filter">
-  <div><i class="fa-solid fa-fire"></i></div>
-  <p>Trending</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-bed"></i></div>
-  <p>Room</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-mountain-city"></i></div>
-  <p>Iconic Cities</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-tree"></i></div>
-  <p>Nature</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-umbrella-beach"></i></div>
-  <p>Beach</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-snowflake"></i></div>
-  <p>Winter</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-campground"></i></div>
-  <p>Camping</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-landmark"></i></div>
-  <p>Landmarks</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-water"></i></div>
-  <p>Waterfront</p>
-</div>
-
-<div class="filter">
-  <div><i class="fa-solid fa-hotel"></i></div>
-  <p>Hotels</p>
-</div>
-
+<section class="listing-home-head">
+  <div id="filters" class="filter-bar">
+    <a class="filter-chip <%= !selectedCategory ? 'is-active' : '' %>" href="/listings<%= searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : '' %>"><i class="fa-solid fa-border-all"></i><span>All</span></a>
+    <a class="filter-chip <%= selectedCategory === 'trending' ? 'is-active' : '' %>" href="/listings?category=trending<%= encodedSearch %>"><i class="fa-solid fa-fire"></i><span>Trending</span></a>
+    <a class="filter-chip <%= selectedCategory === 'room' ? 'is-active' : '' %>" href="/listings?category=room<%= encodedSearch %>"><i class="fa-solid fa-bed"></i><span>Room</span></a>
+    <a class="filter-chip <%= selectedCategory === 'iconic' ? 'is-active' : '' %>" href="/listings?category=iconic<%= encodedSearch %>"><i class="fa-solid fa-mountain-city"></i><span>Iconic Cities</span></a>
+    <a class="filter-chip <%= selectedCategory === 'nature' ? 'is-active' : '' %>" href="/listings?category=nature<%= encodedSearch %>"><i class="fa-solid fa-tree"></i><span>Nature</span></a>
+    <a class="filter-chip <%= selectedCategory === 'beach' ? 'is-active' : '' %>" href="/listings?category=beach<%= encodedSearch %>"><i class="fa-solid fa-umbrella-beach"></i><span>Beach</span></a>
+    <a class="filter-chip <%= selectedCategory === 'winter' ? 'is-active' : '' %>" href="/listings?category=winter<%= encodedSearch %>"><i class="fa-solid fa-snowflake"></i><span>Winter</span></a>
+    <a class="filter-chip <%= selectedCategory === 'camping' ? 'is-active' : '' %>" href="/listings?category=camping<%= encodedSearch %>"><i class="fa-solid fa-campground"></i><span>Camping</span></a>
+    <a class="filter-chip <%= selectedCategory === 'landmarks' ? 'is-active' : '' %>" href="/listings?category=landmarks<%= encodedSearch %>"><i class="fa-solid fa-landmark"></i><span>Landmarks</span></a>
+    <a class="filter-chip <%= selectedCategory === 'waterfront' ? 'is-active' : '' %>" href="/listings?category=waterfront<%= encodedSearch %>"><i class="fa-solid fa-water"></i><span>Waterfront</span></a>
+    <a class="filter-chip <%= selectedCategory === 'hotels' ? 'is-active' : '' %>" href="/listings?category=hotels<%= encodedSearch %>"><i class="fa-solid fa-hotel"></i><span>Hotels</span></a>
 
     <div class="tax-toggle">
-    <div class="form-check-reverse form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-  <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
-</div>
-    </div>  
-
+      <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+      </div>
     </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-    <% for(let listing of allListings) { %>
-      <a href="/listings/<%= listing._id %>"class="listing-link">
-    <div class="card col listing-card" >
-  <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
-
-  <div class="card-img-overlay"></div>
-
-  <div class="card-body">
-    <p class="card-text"><b>
-      <%= listing.title %></b> <br>
-      &#8377; <%= listing.price.toLocaleString("en-IN")%> / night
-      <i class="tax-info"> &nbsp; &nbsp; +18% GST</i>
-    </p>
   </div>
-</div>
-</a>
+</section>
+
+<section class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 mt-4 listing-grid g-4">
+
+    <% if(allListings.length === 0){ %>
+      <div class="col-12 text-center py-5">
+        <h5 class="mb-2">No listings found for your filters.</h5>
+        <% if(searchQuery){ %>
+          <p class="text-muted mb-0">Try another keyword for "<%= searchQuery %>".</p>
+        <% } %>
+        <% if(selectedCategory){ %>
+          <p class="text-muted mb-0">No results in category "<%= selectedCategory %>".</p>
+        <% } %>
+      </div>
+    <% } %>
+
+    <% for(let listing of allListings) { %>
+      <% 
+        const imageTag = listing.price >= 4000 ? "Luxury Pick" : (listing.price >= 2500 ? "Guest Favorite" : "Great Value");
+      %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+          <article class="card listing-card h-100">
+            <div class="listing-media-wrap">
+              <div class="listing-badges">
+                <span class="listing-badge listing-badge-left"><%= imageTag %></span>
+                <span class="listing-badge listing-badge-right">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+              </div>
+              <img src="<%= listing.image.url %>" class="card-img-top listing-card-img" alt="listing_image">
+            </div>
+            <div class="card-body">
+              <h5 class="listing-title"><%= listing.title %></h5>
+              <p class="listing-price">
+                <span class="price-value">&#8377; <%= listing.price.toLocaleString("en-IN")%></span> / night
+                <span class="tax-info">+18% GST</span>
+              </p>
+            </div>
+          </article>
+        </a>
+      </div>
 <% } %>
-</div>
+</section>
 
 
 

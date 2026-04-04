@@ -102,7 +102,9 @@ app.use((req, res, next) => {
 //     res.send(registeredUser);
 // });
 
-
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/",userRouter);
@@ -120,7 +122,8 @@ app.use((err,req,res,next)=>{
 });
 
 
+const PORT = process.env.PORT || 8080;
 
-app.listen(8080,()=>{
-    console.log("server is listening on port 8080");
+app.listen(PORT,()=>{
+    console.log(`server is listening on port ${PORT}`);
 });
