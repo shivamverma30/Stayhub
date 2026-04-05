@@ -1,15 +1,32 @@
 const User = require("../models/user");
 
+const isJsonRequest = (req) => req.xhr || req.originalUrl.startsWith("/api") || req.is("application/json");
+
+const sendAuthError = (req, res, message, redirectPath, statusCode = 400) => {
+    if (isJsonRequest(req)) {
+        return res.status(statusCode).json({ success: false, message });
+    }
+    req.flash("error", message);
+    return res.redirect(redirectPath);
+};
+
 module.exports.renderSignupForm = (req,res)=>{
     res.render("users/signup.ejs");
 };
 
-module.exports.signup = async(req,res)=>{
+module.exports.signup = async(req,res,next)=>{
     try{
-    let{username,email,password}=req.body;
-    const newUser = new User({email,username});
+    let { username, email, password } = req.body;
+    username = username.trim();
+    email = email.toLowerCase().trim();
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        return sendAuthError(req, res, "Email is already registered", "/signup", 409);
+    }
+
+    const newUser = new User({ email, username });
     const registeredUser = await User.register(newUser,password);
-    console.log(registeredUser);
     req.login(registeredUser,(err)=>{
         if(err){
             return next(err);
@@ -18,8 +35,7 @@ module.exports.signup = async(req,res)=>{
         res.redirect("/listings");
     });
     }catch(e){
-        req.flash("error", e.message);
-        res.redirect("/signup");
+        return sendAuthError(req, res, e.message, "/signup");
     }
 };
 

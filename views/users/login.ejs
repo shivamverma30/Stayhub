@@ -6,18 +6,20 @@
       <p>Log in to manage your listings and bookings.</p>
     </div>
 
-    <form action="/login" method="POST" class="needs-validation premium-form" novalidate>
+    <form action="/login" method="POST" class="needs-validation premium-form" data-auth-form="login" novalidate>
       <div class="form-floating mb-3">
-        <input name="username" type="text" id="username" class="form-control" placeholder="Username" required />
+        <input name="username" type="text" id="username" class="form-control" placeholder="Username" autocomplete="username" required />
         <label for="username">Username</label>
+        <div class="invalid-feedback" data-error-for="username"></div>
       </div>
 
       <div class="form-floating mb-3">
-        <input name="password" type="password" id="password" class="form-control" placeholder="Password" required />
+        <input name="password" type="password" id="password" class="form-control" placeholder="Password" autocomplete="current-password" required />
         <label for="password">Password</label>
+        <div class="invalid-feedback" data-error-for="password"></div>
       </div>
 
-      <button class="btn btn-dark w-100 auth-btn">Log In</button>
+      <button class="btn btn-dark w-100 auth-btn" type="submit" disabled>Log In</button>
     </form>
   </div>
 </section>

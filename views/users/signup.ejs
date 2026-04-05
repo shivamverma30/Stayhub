@@ -6,24 +6,48 @@
       <p>Join WanderLust and start sharing unforgettable stays.</p>
     </div>
 
-    <form action="/signup" method="POST" class="needs-validation premium-form" novalidate>
+    <form action="/signup" method="POST" class="needs-validation premium-form" data-auth-form="signup" novalidate>
       <div class="form-floating mb-3">
-        <input name="username" type="text" id="username" class="form-control" placeholder="Username" required />
+        <input name="username" type="text" id="username" class="form-control" placeholder="Username" minlength="3" maxlength="30" required />
         <label for="username">Username</label>
-        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback" data-error-for="username"></div>
       </div>
 
       <div class="form-floating mb-3">
-        <input name="email" type="text" id="email" class="form-control" placeholder="E-mail" required />
+        <input name="email" type="email" id="email" class="form-control" placeholder="E-mail" autocomplete="email" required />
         <label for="email">E-mail</label>
+        <div class="invalid-feedback" data-error-for="email"></div>
       </div>
 
       <div class="form-floating mb-3">
-        <input name="password" type="password" id="password" class="form-control" placeholder="Password" required />
+        <input
+          name="password"
+          type="password"
+          id="password"
+          class="form-control"
+          placeholder="Password"
+          autocomplete="new-password"
+          required
+        />
         <label for="password">Password</label>
+        <div class="invalid-feedback" data-error-for="password"></div>
       </div>
 
-      <button class="btn btn-dark w-100 auth-btn">Sign Up</button>
+      <div class="form-floating mb-3">
+        <input
+          name="confirmPassword"
+          type="password"
+          id="confirmPassword"
+          class="form-control"
+          placeholder="Confirm Password"
+          autocomplete="new-password"
+          required
+        />
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="invalid-feedback" data-error-for="confirmPassword"></div>
+      </div>
+
+      <button class="btn btn-dark w-100 auth-btn" type="submit" disabled>Sign Up</button>
     </form>
   </div>
 </section>
